@@ -3,7 +3,6 @@ header {
     padding: 28px 5%;
     display: flex;
     justify-content: space-between;
-    border: 1px solid white;
 
     @media screen and (max-width: 540px) {
         flex-direction: column;
