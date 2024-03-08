@@ -1,5 +1,12 @@
 import { Link } from 'react-router-dom';
+
+// Data
 import blogposts from '../../constants/data.json';
+
+// Components
+import CommentsAndShares from '../../components/comments-and-shares/CommentsAndShares';
+
+// Style
 import './all-posts.css';
 
 const AllPosts = () => {
@@ -8,8 +15,7 @@ const AllPosts = () => {
     return (
         <main>
             <header>
-                <h1>Alle posts</h1>
-                <p>Aantal posts: {totalAmountOfPosts}</p>
+                <p className="number-of-posts">Aantal posts: {totalAmountOfPosts}</p>
             </header>
             <div className='blogposts-container'>
                 {
@@ -18,7 +24,7 @@ const AllPosts = () => {
                             <Link to={`/blogpost/${blogpost.id}`} key={blogpost.id}>
                                 <article className="blogpost-title" >
                                     <h2>{`${blogpost.title} (${blogpost.author})`}</h2>
-                                    <p>{`${blogpost.comments} reacties - ${blogpost.shares} gedeeld`}</p>
+                                    <CommentsAndShares comments={blogpost.comments} shares={blogpost.shares} />
                                 </article>
                             </Link>
                         );

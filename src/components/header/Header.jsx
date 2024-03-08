@@ -1,6 +1,13 @@
-import NavItem from '../nav-item/NavItem';
+// Data
 import navItems from '../../constants/navItems';
+
+// Components
+import NavItem from '../nav-item/NavItem';
+
+// Images
 import headerLogo from '../../assets/logo-medium.png';
+
+// Style
 import './header.css';
 
 const Header = () => {

@@ -1,10 +1,16 @@
 import { Routes, Route } from 'react-router-dom';
-import Header from './components/header/Header';
+
+// Pages
 import Home from './pages/home/Home';
 import AllPosts from './pages/all-posts/AllPosts';
 import NewPost from './pages/new-post/NewPost';
 import Blogpost from './pages/blogpost/Blogpost';
 import PageNotFound from './pages/page-not-found/PageNotFound';
+
+// Components
+import Header from './components/header/Header';
+
+// Styling
 import './App.css'
 
 function App() {

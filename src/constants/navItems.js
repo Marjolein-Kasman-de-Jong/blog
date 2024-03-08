@@ -1,15 +1,15 @@
 const navItems = [
     {
         path: "/",
-        text: "home"
+        text: "Home"
     },
     {
         path: "/alle-posts",
-        text: "alle posts"
+        text: "Alle posts"
     },
     {
         path: "/nieuwe-post-maken",
-        text: "nieuwe post maken"
+        text: "Nieuwe post maken"
     }
 ]
 

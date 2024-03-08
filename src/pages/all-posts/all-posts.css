@@ -1,9 +1,21 @@
+.number-of-posts {
+    margin: 50px 0;
+    text-align: center;
+}
+
 .blogposts-container {
-    padding: 5%;
+    padding: 0 5%;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
+}
+
+.blogposts-container a {
+    width: 100%;
+    max-width: 500px;
+    color: var(--white);
+    text-decoration: none;
 }
 
 .blogpost-title {
@@ -16,9 +28,6 @@
     text-align: center;
 }
 
-.blogposts-container a {
-    width: 100%;
-    max-width: 500px;
-    color: var(--white);
-    text-decoration: none;
+.blogpost-title:hover {
+    background-color: var(--color-tertiary);
 }

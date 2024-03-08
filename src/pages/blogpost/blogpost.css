@@ -1,0 +1,15 @@
+.blogpost {
+    max-width: 750px;
+    margin: 5%;
+    padding: 5%;
+    border: 1px solid var(--color-primary);
+}
+
+.subtitle {
+    font-size: 1.2em;
+    text-transform: uppercase;
+}
+
+.blogpost-p {
+    margin: 5% 0;
+}

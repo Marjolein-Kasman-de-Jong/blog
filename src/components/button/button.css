@@ -1,0 +1,12 @@
+.blogpost button {
+    padding: 10px 0;
+    font-size: 1.1em;
+    color: var(--color-primary);
+    border: none;
+    background-color: transparent;
+}
+
+.blogpost button:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}

@@ -1,4 +1,6 @@
 import { NavLink } from 'react-router-dom';
+
+// Style
 import './nav-item.css';
 
 const NavItem = ({ path, text }) => {
