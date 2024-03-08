@@ -5,9 +5,9 @@ const Blogpost = () => {
     const { id } = useParams();
 
     return (
-        <>
+        <main>
             <h1>Blogpost {id}</h1>
-        </>
+        </main>
     );
 }
 
