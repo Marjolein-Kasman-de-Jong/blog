@@ -1,0 +1,13 @@
+header a {
+    color: var(--color-white);
+    text-decoration: none;
+}
+
+.active-menu-link {
+    color: var(--color-primary);
+    border-bottom: 3px solid var(--color-primary);
+}
+
+.default-menu-link {
+    border-bottom: 3px solid transparent;
+}
