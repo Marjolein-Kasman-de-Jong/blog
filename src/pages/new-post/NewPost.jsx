@@ -1,6 +1,10 @@
 import { useState } from 'react';
-import './new-post.css';
 
+// Helpers
+import calculateReadTime from '../../helpers/calculateReadTime';
+
+// Style
+import './new-post.css';
 
 const NewPost = () => {
     const [formState, setFormState] = useState({
@@ -8,9 +12,14 @@ const NewPost = () => {
         subtitle: '',
         author: '',
         content: '',
-
-        btnDisabled: true,
+        shares: 0,
+        comments: 0,
+        created: null,
+        readTime: 0,
     });
+
+    const [btnDisabled, toggleBtnDisabled] = useState(true);
+    const [formSubmitted, setFormSubmitted] = useState(false);
 
     function handleChange(e) {
         const changedFieldName = e.target.name;
@@ -25,22 +34,31 @@ const NewPost = () => {
     }
 
     function enableSubmit() {
-        if (formState.title != '' && formState.subtitle != '' && formState.author != '' && formState.content.length >= 300 && formState.content.length <= 2000) {
-            setFormState(prev => ({
-                ...prev,
-                btnDisabled: false,
-            }));
+        if (
+            formState.title.length > 0 &&
+            formState.subtitle.length > 0 &&
+            formState.author.length > 0 &&
+            formState.content.length >= 300 &&
+            formState.content.length <= 2000
+        ) {
+            toggleBtnDisabled(false);
         } else {
-            setFormState(prev => ({
-                ...prev,
-                btnDisabled: true,
-            }));
+            // Submit button is toggled one input character late because of state being 'behind'. How to fix???
+            toggleBtnDisabled(true);
         }
     }
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log(formState);
+        // Set formState.created and formState.readTime
+        const dateCreated = new Date();
+        setFormState(prev => ({
+            ...prev,
+            'created': dateCreated,
+            'readTime': calculateReadTime(formState.content),
+        }));
+        // Set formSubmitted
+        setFormSubmitted(true);
     }
 
     return (
@@ -58,7 +76,10 @@ const NewPost = () => {
                 <label htmlFor="content">Bericht</label>
                 <textarea name="content" id="content" cols="30" rows="10" value={formState.content} onChange={handleChange}></textarea>
 
-                <button type="submit" value="submit" onClick={(e) => handleSubmit(e)} disabled={formState.btnDisabled}>Verzenden</button>
+                <button type="submit" value="submit" onClick={(e) => handleSubmit(e)} disabled={btnDisabled}>Verzenden</button>
+                
+                {/* Wait for formSubmitted = true to log formState*/}
+                {formSubmitted && console.log(formState)}
             </form>
         </main>
     );
