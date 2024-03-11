@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // Helpers
 import calculateReadTime from '../../helpers/calculateReadTime';
@@ -7,6 +8,8 @@ import calculateReadTime from '../../helpers/calculateReadTime';
 import './new-post.css';
 
 const NewPost = () => {
+    const navigate = useNavigate(); 
+    
     const [formState, setFormState] = useState({
         title: '',
         subtitle: '',
@@ -43,7 +46,7 @@ const NewPost = () => {
         ) {
             toggleBtnDisabled(false);
         } else {
-            // Submit button is toggled one input character late because of state being 'behind'. How to fix???
+            // De submit button wordt één ingevoerd karakter te laat ge-enabled, omdat state 'achter ligt'. Wie weet hoe je dit fikst?
             toggleBtnDisabled(true);
         }
     }
@@ -59,6 +62,13 @@ const NewPost = () => {
         }));
         // Set formSubmitted
         setFormSubmitted(true);
+    }
+
+    function continueAfterSubmit() {
+        console.log(formState);
+        // Regel 71 werkt, maar levert een foutmelding op: "Cannot update a component (`BrowserRouter`) while rendering a different component (`NewPost`)."
+        // Is dat een probleem?
+        navigate("/alle-posts");
     }
 
     return (
@@ -78,8 +88,8 @@ const NewPost = () => {
 
                 <button type="submit" value="submit" onClick={(e) => handleSubmit(e)} disabled={btnDisabled}>Verzenden</button>
                 
-                {/* Wait for formSubmitted = true to log formState*/}
-                {formSubmitted && console.log(formState)}
+                {/* Wait for formSubmitted = true to log formState and navigate to /alle-posts */}
+                {formSubmitted && continueAfterSubmit()}
             </form>
         </main>
     );
