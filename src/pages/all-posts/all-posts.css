@@ -4,7 +4,6 @@
 }
 
 .blogposts-container {
-    padding: 0 5%;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;

@@ -4,12 +4,16 @@ import { useNavigate } from 'react-router-dom';
 // Helpers
 import calculateReadTime from '../../helpers/calculateReadTime';
 
+// Components
+import TextInput from '../../components/text-input/TextInput';
+import Button from '../../components/button/Button';
+
 // Style
 import './new-post.css';
 
 const NewPost = () => {
-    const navigate = useNavigate(); 
-    
+    const navigate = useNavigate();
+
     const [formState, setFormState] = useState({
         title: '',
         subtitle: '',
@@ -73,21 +77,20 @@ const NewPost = () => {
 
     return (
         <main>
-            <form action="#">
-                <label htmlFor="title">Titel</label>
-                <input type="text" id="title" name="title" value={formState.title} required onChange={handleChange} />
+            <form action="#" className='new-post'>
+                <fieldset>
+                    <TextInput formState={formState} handleChange={handleChange} name="title" label="Titel" />
+                    <TextInput formState={formState} handleChange={handleChange} name="subtitle" label="Subtitel" />
+                    <TextInput formState={formState} handleChange={handleChange} name="author" label="Auteur" />
+                </fieldset>
 
-                <label htmlFor="subtitle">Subtitel</label>
-                <input type="text" id="subtitle" name="subtitle" value={formState.subtitle} required onChange={handleChange} />
+                <div className="content-area">
+                    <label htmlFor="content">Bericht</label>
+                    <textarea name="content" id="content" cols="30" rows="10" value={formState.content} onChange={handleChange} placeholder="De blogpost moet minimaal 300 en maximaal 2000 karakters lang zijn."></textarea>
+                </div>
 
-                <label htmlFor="author">Auteur</label>
-                <input type="text" id="author" name="author" value={formState.author} required onChange={handleChange} />
+                <Button type="submit" value="submit" onClick={(e) => handleSubmit(e)} disabled={btnDisabled} text="Verzenden" />
 
-                <label htmlFor="content">Bericht</label>
-                <textarea name="content" id="content" cols="30" rows="10" value={formState.content} onChange={handleChange}></textarea>
-
-                <button type="submit" value="submit" onClick={(e) => handleSubmit(e)} disabled={btnDisabled}>Verzenden</button>
-                
                 {/* Wait for formSubmitted = true to log formState and navigate to /alle-posts */}
                 {formSubmitted && continueAfterSubmit()}
             </form>

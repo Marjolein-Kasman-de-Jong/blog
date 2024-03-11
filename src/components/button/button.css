@@ -1,4 +1,4 @@
-.blogpost button {
+button {
     padding: 10px 0;
     font-size: 1.1em;
     color: var(--color-primary);
@@ -6,7 +6,13 @@
     background-color: transparent;
 }
 
-.blogpost button:hover {
+button:hover {
     cursor: pointer;
     text-decoration: underline;
+}
+
+button:disabled {
+    color: var(--color-tertiary);
+    cursor:default;
+    text-decoration: none;
 }

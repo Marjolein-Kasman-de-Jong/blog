@@ -1,6 +1,6 @@
 .blogpost {
     max-width: 750px;
-    margin: 5%;
+    margin: 50px 0;
     padding: 5%;
     border: 1px solid var(--color-primary);
 }
