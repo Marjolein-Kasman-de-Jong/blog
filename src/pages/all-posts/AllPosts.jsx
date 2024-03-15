@@ -1,7 +1,6 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
-// Data
-import blogposts from '../../constants/data.json';
+import axios from 'axios';
 
 // Components
 import CommentsAndShares from '../../components/comments-and-shares/CommentsAndShares';
@@ -10,7 +9,22 @@ import CommentsAndShares from '../../components/comments-and-shares/CommentsAndS
 import './all-posts.css';
 
 const AllPosts = () => {
-    const totalAmountOfPosts = blogposts.length;
+    const [blogposts, setBlogposts] = useState([]);
+    const [totalAmountOfPosts, setTotalAmountOfPosts] = useState(0);
+
+    async function getAllPosts() {
+        try {
+            const response = await axios.get(' http://localhost:3000/posts');
+            setBlogposts(response.data);
+            setTotalAmountOfPosts(response.data.length);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    useEffect(() => {
+        getAllPosts();
+    }, [])
 
     return (
         <main>
@@ -19,16 +33,19 @@ const AllPosts = () => {
             </header>
             <div className='blogposts-container'>
                 {
-                    blogposts.map((blogpost) => {
-                        return (
-                            <Link to={`/blogpost/${blogpost.id}`} key={blogpost.id}>
-                                <article className="blogpost-title" >
-                                    <h2>{`${blogpost.title} (${blogpost.author})`}</h2>
-                                    <CommentsAndShares comments={blogpost.comments} shares={blogpost.shares} />
-                                </article>
-                            </Link>
-                        );
-                    })
+                    blogposts.length > 0 ?
+                        blogposts.map((blogpost) => {
+                            return (
+                                <Link to={`/blogpost/${blogpost.id}`} key={blogpost.id}>
+                                    <article className="blogpost-title" >
+                                        <h2>{`${blogpost.title} (${blogpost.author})`}</h2>
+                                        <CommentsAndShares comments={blogpost.comments} shares={blogpost.shares} />
+                                    </article>
+                                </Link>
+                            );
+                        })
+                        :
+                        <p>No blogposts found.</p>
                 }
             </div>
         </main>

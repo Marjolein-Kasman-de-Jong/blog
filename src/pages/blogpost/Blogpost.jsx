@@ -26,11 +26,11 @@ const Blogpost = () => {
         <main>
             <article className="blogpost">
                 <header>
-                <hgroup>
-                    <h1>{`${blogpost.title} (${blogpost.readTime} minuten)`}</h1>
-                    <p className="subtitle">{blogpost.subtitle}</p>
-                    <address>{`Geschreven door ${blogpost.author} op ${formatDate(blogpost.created)}`}</address>
-                </hgroup>
+                    <hgroup>
+                        <h1>{`${blogpost.title} (${blogpost.readTime} minuten)`}</h1>
+                        <p className="subtitle">{blogpost.subtitle}</p>
+                        <address>{`Geschreven door ${blogpost.author} op ${formatDate(blogpost.created)}`}</address>
+                    </hgroup>
                 </header>
                 <p className='blogpost-p'>{blogpost.content}</p>
                 <footer>
