@@ -14,7 +14,7 @@ const AllPosts = () => {
 
     async function getAllPosts() {
         try {
-            const response = await axios.get(' http://localhost:3000/posts');
+            const response = await axios.get('http://localhost:3000/posts');
             setBlogposts(response.data);
             setTotalAmountOfPosts(response.data.length);
         } catch (error) {
@@ -45,7 +45,7 @@ const AllPosts = () => {
                             );
                         })
                         :
-                        <p>No blogposts found.</p>
+                        <p>Geen blogposts gevonden.</p>
                 }
             </div>
         </main>

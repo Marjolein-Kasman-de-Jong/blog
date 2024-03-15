@@ -1,8 +1,7 @@
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
-// Data
-import blogposts from '../../constants/data.json';
+import axios from 'axios';
 
 // Helpers
 import formatDate from '../../helpers/formatDate';
@@ -18,26 +17,42 @@ const Blogpost = () => {
     const navigate = useNavigate();
     // Find blogpost
     const { id } = useParams();
-    const blogpost = blogposts.find((blogpost) => {
-        return (blogpost.id).toString() === id;
-    });
+    const [singlePost, setSinglePost] = useState({});
+
+    async function getSinglePost() {
+        try {
+            const response = await axios.get(`http://localhost:3000/posts/${id}`);
+            setSinglePost(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    useEffect(() => {
+        getSinglePost();
+    }, [])
 
     return (
         <main>
-            <article className="blogpost">
-                <header>
-                    <hgroup>
-                        <h1>{`${blogpost.title} (${blogpost.readTime} minuten)`}</h1>
-                        <p className="subtitle">{blogpost.subtitle}</p>
-                        <address>{`Geschreven door ${blogpost.author} op ${formatDate(blogpost.created)}`}</address>
-                    </hgroup>
-                </header>
-                <p className='blogpost-p'>{blogpost.content}</p>
-                <footer>
-                    <CommentsAndShares comments={blogpost.comments} shares={blogpost.shares} />
-                    <Button type="button" onClick={() => navigate("/alle-posts")} text="Alle posts" />
-                </footer>
-            </article>
+            {
+                Object.keys(singlePost).length !== 0 ?
+                    <article className="blogpost">
+                        <header>
+                            <hgroup>
+                                <h1>{`${singlePost.title} (${singlePost.readTime} minuten)`}</h1>
+                                <p className="subtitle">{singlePost.subtitle}</p>
+                                <address>{`Geschreven door ${singlePost.author} op ${formatDate(singlePost.created)}`}</address>
+                            </hgroup>
+                        </header>
+                        <p className='blogpost-p'>{singlePost.content}</p>
+                        <footer>
+                            <CommentsAndShares comments={singlePost.comments} shares={singlePost.shares} />
+                            <Button type="button" onClick={() => navigate("/alle-posts")} text="Alle posts" />
+                        </footer>
+                    </article>
+                    :
+                    <p>Blogpost niet gevonden.</p>
+            }
         </main>
     );
 }
