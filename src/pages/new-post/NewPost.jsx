@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -40,6 +40,7 @@ const NewPost = () => {
         enableSubmit();
     }
 
+    // Enable sumbit button
     function enableSubmit() {
         if (
             formState.title.length > 0 &&
@@ -55,27 +56,32 @@ const NewPost = () => {
         }
     }
 
-    async function handleSubmit(e) {
-        try {
-            e.preventDefault();
-            // Set formState.created and formState.readTime
-            const dateCreated = new Date();
-            console.log(dateCreated); //temp
-            setFormState(prev => ({
-                ...prev,
-                'created': dateCreated,
-                'readTime': calculateReadTime(formState.content),
-            }));
-            // Set formSubmitted
-            setFormSubmitted(true);
-            // Send post to database
-            const response = await axios.post('http://localhost:3000/posts', formState);
-            // Set postId
-            response.status === 201 && setPostId(response.data.id);
-        } catch (error) {
-            console.error(error);
-        }
+    // Set state for dateCreated, readTime and formSubmitted when submit button is clicked 
+    function handleSubmit(e) {
+        e.preventDefault();
+        const dateCreated = new Date();
+        setFormState(prev => ({
+            ...prev,
+            'created': dateCreated,
+            'readTime': calculateReadTime(formState.content),
+        }));
+        setFormSubmitted(true);
     }
+
+    // Post data after all formState has been set
+    useEffect(() => {
+        async function postData() {
+            try {
+                const response = await axios.post('http://localhost:3000/posts', formState);
+                // Set state for postId
+                response.status === 201 && setPostId(response.data.id);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        formSubmitted && postData();
+    }, [formState, formSubmitted]);
+
 
     return (
         <main>
@@ -99,7 +105,7 @@ const NewPost = () => {
                                 <textarea name="content" id="content" cols="30" rows="10" value={formState.content} onChange={handleChange} placeholder="De blogpost moet minimaal 300 en maximaal 2000 karakters lang zijn."></textarea>
                             </div>
 
-                            <Button type="submit" value="submit" onClick={(e) => {handleSubmit(e)}} disabled={btnDisabled} text="Verzenden" />
+                            <Button type="submit" value="submit" onClick={(e) => { handleSubmit(e) }} disabled={btnDisabled} text="Verzenden" />
                         </form>
                     </>
             }
