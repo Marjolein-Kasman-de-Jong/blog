@@ -30,3 +30,11 @@ textarea {
 ::placeholder {
     color: var(--color-tertiary);
 }
+
+.success-message {
+    margin: 50px 5%;
+}
+
+.fail-message {
+    color: var(--color-red);
+}

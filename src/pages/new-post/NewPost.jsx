@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 // Helpers
 import calculateReadTime from '../../helpers/calculateReadTime';
@@ -12,8 +13,6 @@ import Button from '../../components/button/Button';
 import './new-post.css';
 
 const NewPost = () => {
-    const navigate = useNavigate();
-
     const [formState, setFormState] = useState({
         title: '',
         subtitle: '',
@@ -27,6 +26,7 @@ const NewPost = () => {
 
     const [btnDisabled, toggleBtnDisabled] = useState(true);
     const [formSubmitted, setFormSubmitted] = useState(false);
+    const [postId, setPostId] = useState(0);
 
     function handleChange(e) {
         const changedFieldName = e.target.name;
@@ -55,45 +55,54 @@ const NewPost = () => {
         }
     }
 
-    function handleSubmit(e) {
-        e.preventDefault();
-        // Set formState.created and formState.readTime
-        const dateCreated = new Date();
-        setFormState(prev => ({
-            ...prev,
-            'created': dateCreated,
-            'readTime': calculateReadTime(formState.content),
-        }));
-        // Set formSubmitted
-        setFormSubmitted(true);
-    }
-
-    function continueAfterSubmit() {
-        console.log(formState);
-        // Regel 71 werkt, maar levert een foutmelding op: "Cannot update a component (`BrowserRouter`) while rendering a different component (`NewPost`)."
-        // Is dat een probleem?
-        navigate("/alle-posts");
+    async function handleSubmit(e) {
+        try {
+            e.preventDefault();
+            // Set formState.created and formState.readTime
+            const dateCreated = new Date();
+            console.log(dateCreated); //temp
+            setFormState(prev => ({
+                ...prev,
+                'created': dateCreated,
+                'readTime': calculateReadTime(formState.content),
+            }));
+            // Set formSubmitted
+            setFormSubmitted(true);
+            // Send post to database
+            const response = await axios.post('http://localhost:3000/posts', formState);
+            // Set postId
+            response.status === 201 && setPostId(response.data.id);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
         <main>
-            <form action="#" className='new-post'>
-                <fieldset>
-                    <TextInput formState={formState} handleChange={handleChange} name="title" label="Titel" />
-                    <TextInput formState={formState} handleChange={handleChange} name="subtitle" label="Subtitel" />
-                    <TextInput formState={formState} handleChange={handleChange} name="author" label="Auteur" />
-                </fieldset>
+            {
+                formSubmitted && postId != 0 ?
+                    <p className="success-message">De blogpost is succesvol toegevoegd. Je kunt deze <Link to={`/blogpost/${postId}`}>hier</Link> bekijken.</p>
+                    :
+                    <>
+                        {formSubmitted && postId === 0 && <p className="fail-message">Er ging iets mis.</p>}
 
-                <div className="content-area">
-                    <label htmlFor="content">Bericht</label>
-                    <textarea name="content" id="content" cols="30" rows="10" value={formState.content} onChange={handleChange} placeholder="De blogpost moet minimaal 300 en maximaal 2000 karakters lang zijn."></textarea>
-                </div>
+                        <form action="#" className='new-post'>
 
-                <Button type="submit" value="submit" onClick={(e) => handleSubmit(e)} disabled={btnDisabled} text="Verzenden" />
+                            <fieldset>
+                                <TextInput formState={formState} handleChange={handleChange} name="title" label="Titel" />
+                                <TextInput formState={formState} handleChange={handleChange} name="subtitle" label="Subtitel" />
+                                <TextInput formState={formState} handleChange={handleChange} name="author" label="Auteur" />
+                            </fieldset>
 
-                {/* Wait for formSubmitted = true to log formState and navigate to /alle-posts */}
-                {formSubmitted && continueAfterSubmit()}
-            </form>
+                            <div className="content-area">
+                                <label htmlFor="content">Bericht</label>
+                                <textarea name="content" id="content" cols="30" rows="10" value={formState.content} onChange={handleChange} placeholder="De blogpost moet minimaal 300 en maximaal 2000 karakters lang zijn."></textarea>
+                            </div>
+
+                            <Button type="submit" value="submit" onClick={(e) => {handleSubmit(e)}} disabled={btnDisabled} text="Verzenden" />
+                        </form>
+                    </>
+            }
         </main>
     );
 }

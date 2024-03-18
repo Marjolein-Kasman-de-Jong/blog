@@ -3,6 +3,7 @@
   --color-secondary: #2C2F39;
   --color-tertiary: #50535C;
   --color-white: #FFFFFF;
+  --color-red: red;
 }
 
 * {
@@ -52,4 +53,8 @@ p {
 
 img {
   max-width: 100%;
+}
+
+a {
+  color: var(--color-white);
 }
