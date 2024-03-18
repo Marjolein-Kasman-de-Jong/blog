@@ -36,25 +36,25 @@ const NewPost = () => {
             ...prev,
             [changedFieldName]: newValue,
         }));
-
-        enableSubmit();
     }
 
     // Enable sumbit button
-    function enableSubmit() {
-        if (
-            formState.title.length > 0 &&
-            formState.subtitle.length > 0 &&
-            formState.author.length > 0 &&
-            formState.content.length >= 300 &&
-            formState.content.length <= 2000
-        ) {
-            toggleBtnDisabled(false);
-        } else {
-            // De submit button wordt één ingevoerd karakter te laat ge-enabled, omdat state 'achter ligt'. Wie weet hoe je dit fikst?
-            toggleBtnDisabled(true);
+    useEffect(() => {
+        function enableSubmit() {
+            if (
+                formState.title.length > 0 &&
+                formState.subtitle.length > 0 &&
+                formState.author.length > 0 &&
+                formState.content.length >= 300 &&
+                formState.content.length <= 2000
+            ) {
+                toggleBtnDisabled(false);
+            } else {
+                toggleBtnDisabled(true);
+            }
         }
-    }
+        enableSubmit();
+    }, [formState]);
 
     // Set state for dateCreated, readTime and formSubmitted when submit button is clicked 
     function handleSubmit(e) {
@@ -80,8 +80,7 @@ const NewPost = () => {
             }
         }
         formSubmitted && postData();
-    }, [formState, formSubmitted]);
-
+    }, [formSubmitted]);
 
     return (
         <main>
