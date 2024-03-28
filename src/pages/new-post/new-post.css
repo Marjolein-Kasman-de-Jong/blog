@@ -1,0 +1,40 @@
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    max-width: 750px;
+    margin: 50px 5%;
+    padding: 5%;
+    border: 1px solid var(--color-primary);
+}
+
+fieldset {
+    width: 100%;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.content-area {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+textarea {
+    padding: 8px;
+}
+
+::placeholder {
+    color: var(--color-tertiary);
+}
+
+.success-message {
+    margin: 50px 5%;
+}
+
+.fail-message {
+    color: var(--color-red);
+}

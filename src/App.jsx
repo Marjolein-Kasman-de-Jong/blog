@@ -1,11 +1,29 @@
+import { Routes, Route } from 'react-router-dom';
+
+// Pages
+import Home from './pages/home/Home';
+import AllPosts from './pages/all-posts/AllPosts';
+import NewPost from './pages/new-post/NewPost';
+import Blogpost from './pages/blogpost/Blogpost';
+import PageNotFound from './pages/page-not-found/PageNotFound';
+
+// Components
+import Header from './components/header/Header';
+
+// Styling
 import './App.css'
-import logo from './assets/logo-white.png'
 
 function App() {
     return (
         <div className="page-container">
-            <img src={logo} alt="Company logo"/>
-            <h1>Begin hier met het maken van jouw blog-applicatie!</h1>
+            <Header />
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/alle-posts" element={<AllPosts />} />
+                <Route path="/nieuwe-post-maken" element={<NewPost />} />
+                <Route path="/blogpost/:id" element={<Blogpost />} />
+                <Route path="*" element={<PageNotFound />} />
+            </Routes>
         </div>
     )
 }
