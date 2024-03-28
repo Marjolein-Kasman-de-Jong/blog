@@ -7,7 +7,7 @@ const Button = ({ type, value, onClick, disabled, text }) => {
             type={type}
             value = {value ? value : null}
             onClick={onClick}
-            disabled = {disabled ? disabled : null}
+            disabled = {disabled}
         >
             {text}
         </button>
