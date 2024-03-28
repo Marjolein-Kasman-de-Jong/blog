@@ -17,7 +17,7 @@ const Blogpost = () => {
     const navigate = useNavigate();
     // Find blogpost
     const { id } = useParams();
-    const [singlePost, setSinglePost] = useState({});
+    const [singlePost, setSinglePost] = useState();
 
     async function getSinglePost() {
         try {
